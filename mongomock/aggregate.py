@@ -528,6 +528,12 @@ class _Parser(object):
                     if value not in result:
                         result.append(value)
             return result
+        if operator == '$setDifference':
+            if len(values) != 2:
+                raise Exception('Expression $setDifference takes exactly 2 arguments. 3 were passed in.')
+            first = set(self.parse(values[0]))
+            second = set(self.parse(values[1]))
+            return first ^ second
         raise NotImplementedError(
             "Although '%s' is a valid set operator for the aggregation "
             'pipeline, it is currently not implemented in Mongomock.' % operator)
